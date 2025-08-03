@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/payments")
 public class PaymentController {
 
-    @Autowired
+    final
     PaymentService paymentService;
+
+    public PaymentController(@Autowired PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping
     public boolean phonepe(@RequestParam String mode) {

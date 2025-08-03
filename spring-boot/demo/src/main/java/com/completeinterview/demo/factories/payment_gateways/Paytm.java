@@ -5,6 +5,6 @@ import com.completeinterview.demo.factories.PaymentGatewayInterface;
 public class Paytm implements PaymentGatewayInterface {
     @Override
     public boolean pay() {
-        return false;
+        return true;
     }
 }

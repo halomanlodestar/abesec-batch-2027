@@ -19,6 +19,9 @@ public class PaymentService {
 
     public boolean pay(String mode) {
         PaymentGatewayInterface paymentGateway = PaymentGatewayFactory.getPaymentGateway(mode);
+
+        if (paymentGateway == null) return false;
+
         return paymentGateway.pay();
     }
 

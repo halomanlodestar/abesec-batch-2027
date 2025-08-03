@@ -12,7 +12,7 @@ public class PaymentController {
     PaymentService paymentService;
 
     @PostMapping
-    public String phonepe(@RequestParam String mode) {
+    public boolean phonepe(@RequestParam String mode) {
         return paymentService.pay(mode);
     }
 

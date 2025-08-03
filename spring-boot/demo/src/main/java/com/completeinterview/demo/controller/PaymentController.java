@@ -16,7 +16,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public boolean phonepe(@RequestParam String mode) {
+    public boolean pay(@RequestParam String mode) {
         return paymentService.pay(mode);
     }
 

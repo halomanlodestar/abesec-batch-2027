@@ -11,19 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentService {
 
-    PaymentGatewayFactory paymentGatewayFactory;
-
-    PaymentService(@Autowired PaymentGatewayFactory paymentGatewayFactory) {
-
-        this.paymentGatewayFactory = paymentGatewayFactory;
-
-        paymentGatewayFactory.register("phonepe", new PhonePe());
-        paymentGatewayFactory.register("googlepay", new GooglePay());
-        paymentGatewayFactory.register("paytm", new Paytm());
+    PaymentService() {
+        PaymentGatewayFactory.register("phonepe", new PhonePe());
+        PaymentGatewayFactory.register("googlepay", new GooglePay());
+        PaymentGatewayFactory.register("paytm", new Paytm());
     }
 
     public boolean pay(String mode) {
-        PaymentGatewayInterface paymentGateway = paymentGatewayFactory.getPaymentGateway(mode);
+        PaymentGatewayInterface paymentGateway = PaymentGatewayFactory.getPaymentGateway(mode);
         return paymentGateway.pay();
     }
 

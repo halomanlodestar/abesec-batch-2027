@@ -1,4 +1,4 @@
-package online.threadly.user_authentication;
+package online.threadly.order_and_cart_management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class Application {
+public class OrderAndCartManagementApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+	public static void main(String[] args) {
+		SpringApplication.run(OrderAndCartManagementApplication.class, args);
+	}
+
 }

@@ -57,3 +57,8 @@ spring:
             - Path=/api/v1/admin/products/**
           filters:
             - RequireAdminRoleFilter
+
+        - id: threadly-cart-management-service
+          uri: lb://order-and-cart-management
+          predicates:
+            - Path=/api/v1/cart/**

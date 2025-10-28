@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getPath().toString();
-        if(path.startsWith("/api/v1/auth") || path.startsWith("/api/v1/products")) {
+        if (path.startsWith("/api/v1/auth") || path.startsWith("/api/v1/products")) {
             return chain.filter(exchange);
         }
 
@@ -34,12 +34,28 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         String token = authorizationHeader.substring(7);
-        if(!jwtService.validateToken(token)) {
+        if (!jwtService.validateToken(token)) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        return chain.filter(exchange);
+        // Derive X-USER-ID from the JWT and enforce it on outgoing request to
+        // downstream services
+        String userId = jwtService.extractUserId(token);
+
+        ServerWebExchange mutatedExchange = exchange.mutate()
+                .request(builder -> {
+                    // Remove any client-sent X-USER-ID and set our trusted value
+                    builder.headers(httpHeaders -> {
+                        httpHeaders.remove("X-USER-ID");
+                        if (userId != null) {
+                            httpHeaders.add("X-USER-ID", userId);
+                        }
+                    });
+                })
+                .build();
+
+        return chain.filter(mutatedExchange);
     }
 
     @Override

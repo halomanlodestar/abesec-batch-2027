@@ -48,6 +48,11 @@ public class JwtService {
         return (String) extractAllClaims(token).get("role");
     }
 
+    public String extractUserId(String token) {
+        Object claim = extractAllClaims(token).get("userId");
+        return claim != null ? claim.toString() : null;
+    }
+
     private Claims extractAllClaims(String token) {
         try {
             return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getPayload();

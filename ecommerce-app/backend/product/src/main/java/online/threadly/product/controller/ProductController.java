@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class ProductController {
     @PostMapping("/admin/products")
     public ResponseEntity<Response> createProduct(@RequestBody Product product) {
         var createdProduct = productService.createProduct(product);
-        if(createdProduct == null) {
+        if (createdProduct == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("product not created", null));
         }
         return ResponseEntity.ok(new Response("product created successfully", createdProduct));
@@ -55,5 +56,11 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("product not found", null));
         }
         return ResponseEntity.ok(new Response("product fetched successfully", product));
+    }
+
+    @PostMapping("/products/bulk")
+    public ResponseEntity<List<Product>> getProductsByIds(@RequestBody List<UUID> productIds) {
+        List<Product> products = productService.getProductsByIds(productIds);
+        return ResponseEntity.ok(products);
     }
 }

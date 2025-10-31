@@ -3,6 +3,7 @@ package online.threadly.order_and_cart_management.controller;
 import lombok.RequiredArgsConstructor;
 import online.threadly.order_and_cart_management.dto.AddToCartRequest;
 import online.threadly.order_and_cart_management.dto.AddToCartResponse;
+import online.threadly.order_and_cart_management.dto.CartResponse;
 import online.threadly.order_and_cart_management.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,5 +20,10 @@ public class CartController {
     public ResponseEntity<AddToCartResponse> addItemToCart(@RequestHeader("X-USER-ID") UUID userId, @RequestBody AddToCartRequest addToCartRequest) {
         System.out.println("UserId: " + userId + "\n" + "CartItemRequest: " + addToCartRequest.toString());
         return ResponseEntity.ok(cartService.addToCart(userId, addToCartRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<CartResponse> getCart(@RequestHeader("X-USER-ID") UUID userId) {
+        return ResponseEntity.ok(cartService.getCartForUser(userId));
     }
 }

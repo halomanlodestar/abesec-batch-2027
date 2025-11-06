@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>online.threadly</groupId>
-	<artifactId>product</artifactId>
+	<artifactId>threadly-product</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Product Service - threadly.online</name>
+	<name>threadly-product</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

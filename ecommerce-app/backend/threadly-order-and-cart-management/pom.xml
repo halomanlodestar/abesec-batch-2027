@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>online.threadly</groupId>
-    <artifactId>order-and-cart-management</artifactId>
+    <artifactId>threadly-order-and-cart-management</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order-and-cart-management</name>
+    <name>threadly-order-and-cart-management</name>
     <description>Order and Cart Management - Threadly.online</description>
     <url/>
     <licenses>

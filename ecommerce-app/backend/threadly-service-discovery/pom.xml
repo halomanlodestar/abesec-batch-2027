@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>online.threadly.service_discovery</groupId>
-	<artifactId>service-discovery</artifactId>
+	<artifactId>threadly-service-discovery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>service-discovery</name>
+	<name>threadly-service-discovery</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

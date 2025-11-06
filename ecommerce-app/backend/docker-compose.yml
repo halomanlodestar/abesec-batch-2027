@@ -4,9 +4,9 @@ services:
   ####################################################
   ######### product specific services starts #########
   ####################################################
-  threadly-product-service:
-    image: aakashverma1124/threadly-product-service
-    container_name: threadly-product-service
+  threadly-product:
+    image: aakashverma1124/threadly-product
+    container_name: threadly-product
     ports:
       - "8082:8082"
     environment:
@@ -40,9 +40,9 @@ services:
   ########## user specific services starts ###########
   ####################################################
 
-  threadly-user-authentication-service:
-    image: aakashverma1124/threadly-user-authentication-service
-    container_name: threadly-user-authentication-service
+  threadly-user-authentication:
+    image: aakashverma1124/threadly-user-authentication
+    container_name: threadly-user-authentication
     ports:
       - "8083:8083"
     environment:
@@ -74,10 +74,47 @@ services:
   ####################################################
 
   ####################################################
+  ########## order and cart management services starts ###########
+  ####################################################
+
+  threadly-order-and-cart-management:
+    image: aakashverma1124/threadly-order-and-cart-management
+    container_name: threadly-order-and-cart-management
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://threadly-order-cart-db:5432/threadly-order-cart-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - threadly-order-cart-db
+      - threadly-service-discovery
+    networks:
+      - threadly-network
+
+  threadly-order-cart-db:
+    image: postgres:16-alpine
+    container_name: threadly-order-cart-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: threadly-order-cart-db
+    ports:
+      - "5442:5432"
+    volumes:
+      - threadly-order-cart-db-data:/var/lib/postgresql/data
+    networks:
+      - threadly-network
+
+  ####################################################
+  ############ user specific services ends ###########
+  ####################################################
+
+  ####################################################
   ############# service discovery starts #############
   ####################################################
   threadly-service-discovery:
-    image: aakashverma1124/service-discovery
+    image: aakashverma1124/threadly-service-discovery
     container_name: threadly-service-discovery
     ports:
       - "8761:8761"
@@ -88,9 +125,25 @@ services:
   ############## service discovery end ###############
   ####################################################
 
+  ####################################################
+  ############# api gateway starts #############
+  ####################################################
+  threadly-api-gateway:
+    image: aakashverma1124/threadly-api-gateway
+    container_name: threadly-api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - threadly-network
+
+  ####################################################
+  ############## api gateway ends ###############
+  ####################################################
+
 volumes:
   threadly-product-db-data:
   threadly-users-db-data:
+  threadly-order-cart-db-data:
 
 networks:
   threadly-network:

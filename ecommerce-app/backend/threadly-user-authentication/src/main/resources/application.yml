@@ -1,6 +1,6 @@
 spring:
   application:
-    name: threadly-user-authentication-service
+    name: threadly-user-authentication
   profiles:
     active: local
 server:

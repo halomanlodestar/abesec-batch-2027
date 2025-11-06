@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>online.threadly</groupId>
-    <artifactId>user-authentication</artifactId>
+    <artifactId>threadly-user-authentication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>User Authentication Service - threadly.online</name>
+    <name>threadly-user-authentication</name>
     <description>Demo project for Spring Boot</description>
     <url/>
     <licenses>

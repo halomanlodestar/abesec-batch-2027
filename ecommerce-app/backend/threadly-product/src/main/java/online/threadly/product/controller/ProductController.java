@@ -30,12 +30,9 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<Response> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         var products = productService.getProducts();
-        if (products.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("products not found", null));
-        }
-        return ResponseEntity.ok(new Response("products fetched successfully", products));
+        return ResponseEntity.ok(products);
     }
 
     // http://localhost:8082/api/v1/products/slug/men-slim-fit-smart-formal-shirt

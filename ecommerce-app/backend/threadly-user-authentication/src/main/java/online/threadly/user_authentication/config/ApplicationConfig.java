@@ -20,6 +20,10 @@ public class ApplicationConfig {
     this.userRepository = userRepository;
   }
 
+  // security --> activated =>  user and pass => Looks for UsernameAndPasswordAuthenticationFilter
+  // =>
+  // UserDetailsService => doosra filter
+
   @Bean
   public UserDetailsService userDetailsService() {
     return username ->

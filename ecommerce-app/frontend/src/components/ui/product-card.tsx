@@ -32,6 +32,13 @@ export function ProductCard({
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
 
+  function handleAddToCartButton() {
+    console.log("Add to Cart button clicked");
+    // user logged in or not?
+    // if user is logged in : backend API will be called.
+    // if user is not logged in : add cart details to local storage
+  }
+
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
       <CardHeader className="p-0 relative">
@@ -104,7 +111,7 @@ export function ProductCard({
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button className="w-full" size="sm">
+        <Button onClick={handleAddToCartButton} className="w-full" size="sm">
           <ShoppingCart className="mr-2 h-4 w-4" />
           Add to Cart
         </Button>

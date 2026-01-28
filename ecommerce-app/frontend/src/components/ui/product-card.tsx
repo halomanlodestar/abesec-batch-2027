@@ -2,6 +2,8 @@ import { Button } from "./button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 import { Badge } from "./badge";
 import { ShoppingCart, Heart } from "lucide-react";
+import { addProductToCart } from "@/api/apis";
+import { useAuth } from "@/context/AuthContext";
 
 interface ProductCardProps {
   id: string;
@@ -28,15 +30,71 @@ export function ProductCard({
   isNew = false,
   isOnSale = false,
 }: ProductCardProps) {
+  const { isAuthenticated } = useAuth();
+
   const discount = originalPrice
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
 
-  function handleAddToCartButton() {
-    console.log("Add to Cart button clicked");
-    // user logged in or not?
-    // if user is logged in : backend API will be called.
-    // if user is not logged in : add cart details to local storage
+  async function handleAddToCartButton() {
+    // If user is authenticated, call backend API
+    if (isAuthenticated) {
+      try {
+        await addProductToCart({
+          productId: id,
+          quantity: 1,
+        });
+        console.log("Product added to cart (server)");
+      } catch (error) {
+        console.error("Failed to add product to cart", error);
+      }
+      return;
+    }
+
+    // If user is not authenticated, store cart data in localStorage
+    try {
+      const STORAGE_KEY = "guestCart";
+      const existing = localStorage.getItem(STORAGE_KEY);
+
+      type GuestCartItem = {
+        productId: string;
+        quantity: number;
+        name: string;
+        price: number;
+        image: string;
+      };
+
+      let cart: GuestCartItem[] = [];
+
+      if (existing) {
+        try {
+          cart = JSON.parse(existing);
+          if (!Array.isArray(cart)) {
+            cart = [];
+          }
+        } catch {
+          cart = [];
+        }
+      }
+
+      const index = cart.findIndex((item) => item.productId === id);
+      if (index >= 0) {
+        cart[index].quantity += 1;
+      } else {
+        cart.push({
+          productId: id,
+          quantity: 1,
+          name,
+          price,
+          image,
+        });
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+      console.log("Product added to cart (localStorage)", cart);
+    } catch (error) {
+      console.error("Failed to add product to local cart", error);
+    }
   }
 
   return (

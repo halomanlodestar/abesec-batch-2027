@@ -22,3 +22,13 @@ export const signIn = (signInRequest: SignInRequest) =>
   api.post("/api/v1/auth/login", signInRequest);
 
 export const getUserData = () => api.get("/api/v1/users/me");
+
+export const getProductsData = () => api.get("/api/v1/products");
+
+interface AddToCartRequest {
+  productId: string;
+  quantity: number;
+}
+
+export const addProductToCart = (payload: AddToCartRequest) =>
+  api.post("/api/v1/cart", payload);

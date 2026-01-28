@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import { SignUp } from "./pages/SignUp";
 import { Toaster } from "@/components/ui/sonner";
+import Products from "./pages/Products";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/products" element={<Products />} />
         </Routes>
         <Toaster />
       </BrowserRouter>

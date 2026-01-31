@@ -26,6 +26,8 @@ docker push <username>/<image_name>
 docker push aakashverma1124/threadly-user-authentication-service
 ```
 
+To run all the services via Docker compose after running `dockerize.sh` file, execute `docker compose up -d`
+
 ## How to connect to DB from local terminal to the DB running in Docker?
 
 `psql -h localhost -p 5440 -U postgres -d threadly-product-db`

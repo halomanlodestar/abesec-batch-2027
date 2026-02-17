@@ -15,13 +15,47 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { getCart, type CartResponse } from "@/api/apis";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { ShoppingCart, User, Package, LogOut } from "lucide-react";
+import { useState } from "react";
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuth();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cart, setCart] = useState<CartResponse | null>(null);
+  const [isCartLoading, setIsCartLoading] = useState(false);
+  const [cartError, setCartError] = useState<string | null>(null);
+
+  const loadCart = async () => {
+    try {
+      setIsCartLoading(true);
+      setCartError(null);
+      const response = await getCart();
+      setCart(response.data);
+    } catch (error) {
+      console.error("Failed to load cart", error);
+      setCartError("Failed to load cart. Please try again.");
+    } finally {
+      setIsCartLoading(false);
+    }
+  };
+
+  const handleCartOpenChange = (open: boolean) => {
+    setIsCartOpen(open);
+    if (open) {
+      loadCart();
+    }
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -98,6 +132,75 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
+                <Sheet open={isCartOpen} onOpenChange={handleCartOpenChange}>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="relative h-8 w-8 rounded-full"
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="right" className="w-full sm:max-w-md">
+                    <SheetHeader>
+                      <SheetTitle>My Cart</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-4 space-y-4">
+                      {isCartLoading && (
+                        <p className="text-sm text-muted-foreground">
+                          Loading your cart...
+                        </p>
+                      )}
+                      {cartError && (
+                        <p className="text-sm text-red-500">{cartError}</p>
+                      )}
+                      {!isCartLoading &&
+                        !cartError &&
+                        cart &&
+                        cart.products.length === 0 && (
+                          <p className="text-sm text-muted-foreground">
+                            Your cart is empty.
+                          </p>
+                        )}
+                      {!isCartLoading &&
+                        !cartError &&
+                        cart &&
+                        cart.products.map((product) => (
+                          <div
+                            key={product.id}
+                            className="flex items-center gap-4"
+                          >
+                            <img
+                              src={product.images[0]}
+                              alt={product.name}
+                              className="h-16 w-16 rounded object-cover"
+                            />
+                            <div className="flex-1">
+                              <p className="font-medium line-clamp-1">
+                                {product.name}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                Qty: {product.quantity}
+                              </p>
+                            </div>
+                            <div className="text-right font-semibold">
+                              ₹
+                              {(product.price * product.quantity).toFixed(2)}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                    {cart && (
+                      <div className="mt-6 border-t pt-4 flex items-center justify-between">
+                        <span className="font-medium">Total</span>
+                        <span className="text-lg font-semibold">
+                          ₹{cart.totalAmount.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                  </SheetContent>
+                </Sheet>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button

@@ -32,3 +32,19 @@ interface AddToCartRequest {
 
 export const addProductToCart = (payload: AddToCartRequest) =>
   api.post("/api/v1/cart", payload);
+
+export interface CartProduct {
+  id: string;
+  name: string;
+  slug: string;
+  images: string[];
+  price: number;
+  quantity: number;
+}
+
+export interface CartResponse {
+  products: CartProduct[];
+  totalAmount: number;
+}
+
+export const getCart = () => api.get<CartResponse>("/api/v1/cart");

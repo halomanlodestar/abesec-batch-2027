@@ -1,13 +1,13 @@
 # @format
 
-version: "3.8"
-
 services:
   ####################################################
   ######### product specific services starts #########
   ####################################################
   threadly-product:
+    build: ./threadly-product
     image: aakashverma1124/threadly-product
+    platform: linux/amd64
     container_name: threadly-product
     ports:
       - "8082:8082"
@@ -43,7 +43,9 @@ services:
   ####################################################
 
   threadly-user-authentication:
+    build: ./threadly-user-authentication
     image: aakashverma1124/threadly-user-authentication
+    platform: linux/amd64
     container_name: threadly-user-authentication
     ports:
       - "8083:8083"
@@ -80,7 +82,9 @@ services:
   ####################################################
 
   threadly-order-and-cart-management:
+    build: ./threadly-order-and-cart-management
     image: aakashverma1124/threadly-order-and-cart-management
+    platform: linux/amd64
     container_name: threadly-order-and-cart-management
     ports:
       - "8084:8084"
@@ -116,7 +120,9 @@ services:
   ############# service discovery starts #############
   ####################################################
   threadly-service-discovery:
+    build: ./threadly-service-discovery
     image: aakashverma1124/threadly-service-discovery
+    platform: linux/amd64
     container_name: threadly-service-discovery
     ports:
       - "8761:8761"
@@ -131,7 +137,9 @@ services:
   ############# api gateway starts #############
   ####################################################
   threadly-api-gateway:
+    build: ./threadly-api-gateway
     image: aakashverma1124/threadly-api-gateway
+    platform: linux/amd64
     container_name: threadly-api-gateway
     ports:
       - "8080:8080"
